@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "self_stm32f10x.h": "c",
+        "stm32f10x.h": "c",
+        "bsp_usart.h": "c",
+        "bsp_spi.h": "c",
+        "bsp_i2c.h": "c",
+        "oled.h": "c",
+        "oledfont.h": "c",
+        "user.h": "c",
+        "math.h": "c",
+        "mpu9250.h": "c",
+        "cstddef": "c",
+        "pid.h": "c"
+    }
+}
