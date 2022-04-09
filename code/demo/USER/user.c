@@ -26,13 +26,6 @@ void Reply_Task(void*ptr)
             //过长时间没有接收到主机信号
             //紧急停止代码
             //...
-            //vTaskSuspend(nRF24L01_Intterrupt_TaskHandle);   //挂起中断服务
-            //有可能是本机nrf挂了,重启nrf
-            //taskENTER_CRITICAL();
-            //nRF24L01_Restart();
-            //taskEXIT_CRITICAL();
-            //vTaskResume(nRF24L01_Intterrupt_TaskHandle);
-            OLED_ShowString("loss signal",3,0,1);
         }
         //拷贝接收到的数据
         //回复主机
@@ -77,7 +70,6 @@ void OLED_Task(void*ptr)
     uint8_t sbuf[32];
     while(1)
     {
-        //taskENTER_CRITICAL();{
             sprintf((char*)sbuf,"%3.2f",Angle.pitch);
             OLED_ShowString(sbuf,0,0,1);
 
@@ -89,7 +81,6 @@ void OLED_Task(void*ptr)
 
             OLED_ShowNum(xTaskGetTickCount()*portTICK_PERIOD_MS/1000,7,0,1);
             OLED_Refresh();
-        //}taskEXIT_CRITICAL();
         vTaskDelayUntil(&time,cycle);
     }
 }

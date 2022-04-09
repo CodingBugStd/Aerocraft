@@ -37,6 +37,7 @@ typedef enum
 
 typedef struct
 {
+    uint8_t delay;  //间接控制i2c频率,约低频率越高
     Pin SDA;
     Pin SCL;
 }i2c_busType;

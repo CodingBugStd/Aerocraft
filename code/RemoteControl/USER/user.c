@@ -12,7 +12,7 @@ extern SemaphoreHandle_t	nRF24_RecieveFlag;	//nrf24接收标志(数据已经进�
 extern QueueHandle_t		nRF24_SendResult;	//nrf24发送结果
 
 //全局变量
-extern float BoatGyroscope[3];
+extern float Gyroscope[3];
 extern uint8_t rockerInput[4];		//摇杆输入
 extern nrfCount_Type nrf_count;
 
@@ -61,6 +61,7 @@ void RemoteControl_Task(void*ptr)
             {
                 //处理从机软件回复
                 nrf_count.Slave_AckCoount++;
+                MemCopy(sbuffer,(uint8_t*)Gyroscope,12);
             }
         }else
         {
@@ -115,12 +116,19 @@ void User_FeedBack_Task(void*ptr)
     TickType_t time = xTaskGetTickCount();
     while(1)
     {
+        #if 0
         //vTaskDelayUntil(&time,20/portTICK_PERIOD_MS);   //50Hz
         vTaskDelay(1000/portTICK_PERIOD_MS);
         printf("********************************\r\n");
         printf("Send:%d\r\n",nrf_count.SendCount);
         printf("HD ACK:%d\r\n",nrf_count.SendAck_Count);
         printf("SF ACK:%d\r\n",nrf_count.Slave_AckCoount);
+        #endif
+        Vofa_Input(Gyroscope[0],0);
+        Vofa_Input(Gyroscope[1],1);
+        Vofa_Input(Gyroscope[2],2);
+        Vofa_Input((float)nrf_count.SendAck_Count/100,3);
+        Vofa_Input((float)nrf_count.Slave_AckCoount/100,4);
         Vofa_Send();
     }
 }

@@ -6,9 +6,9 @@ static uint8_t RxAddr[5] = {0x43,0x16,'R','C',0xFF};	//遥控器地址
 static uint8_t TxAddr[5] = {0x43,0x16,'F','L','Y'};		//飞机地址
 
 //任务参数
-uint16_t oled_fre = 50;		//oled刷新频率
+uint16_t oled_fre = 40;		//oled刷新频率
 uint16_t reply_delay = 100;	//最大等待主机信号时间
-uint16_t mpu_fre = 50;		//mpu刷新频率
+uint16_t mpu_fre = 100;		//mpu刷新频率
 
 //任务句柄
 TaskHandle_t RTOS_CreatTask_TaskHandle = NULL;
@@ -64,6 +64,8 @@ int main(void)
 	nRF24L01_Config(&nRF24_Cfg);	//配置nRF24L0
 	nRF24L01_Rx_Mode();
 	#endif
+
+	OLED_ShowString("Test",6,0,1);
 
 	#if 1
 	xTaskCreate(

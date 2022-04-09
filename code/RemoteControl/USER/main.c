@@ -26,7 +26,7 @@ SemaphoreHandle_t	nRF24_RecieveFlag = NULL;	//nrf24接收标志(数据已经进�
 QueueHandle_t		nRF24_SendResult = NULL;	//nrf24发送结果
 
 //全局变量
-float BoatGyroscope[3];		//船只返回的姿态 boatGyroscope_occFlag保护
+float Gyroscope[3];		//船只返回的姿态 boatGyroscope_occFlag保护
 uint8_t rockerInput[4];		//摇杆输入
 nrfCount_Type nrf_count = {0,0,0,0,0};
 void RTOS_CreatTask_Task(void*ptr);
@@ -118,7 +118,7 @@ void RTOS_CreatTask_Task(void*ptr)
 		"UFB task",
 		64,
 		NULL,
-		12,
+		11,
 		&User_FeedBack_TaskHandle
 	);
     vTaskDelete(NULL);
