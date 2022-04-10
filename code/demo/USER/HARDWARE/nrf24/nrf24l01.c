@@ -42,6 +42,9 @@ void nrf_support_init(void)
     //引脚支持
     GPIO_InitTypeDef  GPIO_InitStructure;
 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);
+
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3,ENABLE);     
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);   
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);  

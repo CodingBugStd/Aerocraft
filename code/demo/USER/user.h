@@ -4,7 +4,9 @@
 #include "self_stm32f10x.h"
 #include <math.h>
 
+#include "BSP\bsp_pwm.h"
 #include "BSP\bsp_usart.h"
+#include "BSP\bsp_key.h"
 #include "BSP\bsp_i2c.h"
 
 #include "HARDWARE\nrf24\nrf24l01.h"

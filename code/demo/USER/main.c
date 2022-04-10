@@ -1,5 +1,7 @@
 #include "user.h"
 
+//https://github.com/CodingBugStd/Aerocraft
+
 //nRF24L01初始化结构体
 nRF24L01_Cfg nRF24_Cfg;
 static uint8_t RxAddr[5] = {0x43,0x16,'R','C',0xFF};	//遥控器地址
@@ -33,9 +35,8 @@ int main(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
-	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);
-
+	BSP_PWM_Init();
+	BSP_Key_Init();
 	BSP_Usart_Init();
 	BSP_i2c_Init();
 
@@ -53,7 +54,6 @@ int main(void)
 		OLED_Refresh();
 	}
 
-	#if 1
 	//nRF24L01 相关配置
 	nRF24_Cfg.Channel = 50;	//2.45GHz 通讯频段
 	nRF24_Cfg.retry = 5;	//最大重发次数
@@ -63,11 +63,7 @@ int main(void)
 	MemCopy(RxAddr,nRF24_Cfg.RX_Addr,5);
 	nRF24L01_Config(&nRF24_Cfg);	//配置nRF24L0
 	nRF24L01_Rx_Mode();
-	#endif
 
-	OLED_ShowString("Test",6,0,1);
-
-	#if 1
 	xTaskCreate(
 		RTOS_CreatTask_Task,
 		"CreatTask",
@@ -78,7 +74,6 @@ int main(void)
 	);
 
 	vTaskStartScheduler();
-	#endif
 	while(1);
 }
 
