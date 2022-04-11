@@ -8,6 +8,7 @@
 #include "BSP\bsp_usart.h"
 #include "BSP\bsp_key.h"
 #include "BSP\bsp_i2c.h"
+#include "BSP\bsp_adc.h"
 
 #include "HARDWARE\nrf24\nrf24l01.h"
 #include "HARDWARE\oled\oled.h"
@@ -36,6 +37,7 @@ typedef struct
 void Reply_Task(void*ptr);
 void MPU_Task(void*ptr);
 void OLED_Task(void*ptr);
+void BatVola_Task(void*ptr);
 void nRF24L01_Intterrupt_Task(void*ptr);
 
 #endif

@@ -10,6 +10,7 @@ extern SemaphoreHandle_t	nRF24_RecieveFlag;	//nrf24接收标志(数据已经进�
 extern QueueHandle_t		nRF24_SendResult;	//nrf24发送结果
 
 //全局变量
+extern float BatVol;
 extern Angular_Velocity_Struct Angular;
 extern Angle_Struct Angle;
 
@@ -79,8 +80,22 @@ void OLED_Task(void*ptr)
             sprintf((char*)sbuf,"%3.2f",Angle.yaw);
             OLED_ShowString(sbuf,2,0,1);
 
+            sprintf((char*)sbuf,"VOL:%.2fV",BatVol);
+            OLED_ShowString(sbuf,3,0,2);
+
             OLED_ShowNum(xTaskGetTickCount()*portTICK_PERIOD_MS/1000,7,0,1);
             OLED_Refresh();
         vTaskDelayUntil(&time,cycle);
+    }
+}
+
+void BatVola_Task(void*ptr)
+{
+    TickType_t  time = xTaskGetTickCount();
+    uint16_t delay_cycle = 100 / portTICK_PERIOD_MS;
+    while(1)
+    {
+        BatVol = Read_BatVol();
+        xTaskDelayUntil(&time,delay_cycle);
     }
 }

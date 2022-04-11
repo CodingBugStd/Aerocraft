@@ -8,7 +8,7 @@ static uint8_t RxAddr[5] = {0x43,0x16,'R','C',0xFF};	//遥控器地址
 static uint8_t TxAddr[5] = {0x43,0x16,'F','L','Y'};		//飞机地址
 
 //任务参数
-uint16_t oled_fre = 40;		//oled刷新频率
+uint16_t oled_fre = 24;		//oled刷新频率
 uint16_t reply_delay = 100;	//最大等待主机信号时间
 uint16_t mpu_fre = 100;		//mpu刷新频率
 
@@ -18,6 +18,7 @@ TaskHandle_t nRF24L01_Intterrupt_TaskHandle = NULL;
 TaskHandle_t MPU_TaskHandle = NULL;
 TaskHandle_t OLED_TaskHandle = NULL;
 TaskHandle_t Reply_TaskHandle = NULL;
+TaskHandle_t BatVol_TaskHandle = NULL;
 
 //队列句柄
 SemaphoreHandle_t	nRF24_ISRFlag = NULL;		//nrf24硬件中断标志
@@ -26,6 +27,7 @@ QueueHandle_t		nRF24_SendResult = NULL;	//nrf24发送结果
 SemaphoreHandle_t	Angle_occFlag = NULL;		//Angle变量的占用标志
 
 //全局变量
+float BatVol = 0.0f;
 Angular_Velocity_Struct	Angular = {0,0,0};
 Angle_Struct Angle = {0,0,0};
 
@@ -35,10 +37,11 @@ int main(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-	BSP_PWM_Init();
+	//BSP_PWM_Init();
 	BSP_Key_Init();
 	BSP_Usart_Init();
 	BSP_i2c_Init();
+	BSP_ADC_Init();
 
 	OLED_Init();
 	nRF24L01_Init();
@@ -119,11 +122,22 @@ void RTOS_CreatTask_Task(void*ptr)
 
 	#if 1
 	xTaskCreate(
+		BatVola_Task,
+		"bat vol",
+		64,
+		NULL,
+		9,
+		&BatVol_TaskHandle
+	);
+	#endif
+
+	#if 1
+	xTaskCreate(
 		OLED_Task,
 		"oled",
 		128,
 		&oled_fre,
-		10,
+		8,
 		&OLED_TaskHandle
 	);
 	#endif

@@ -4,12 +4,12 @@ static void ADC_GPIO_Init(void);
 static void ADC_Config(void);
 
 const static Pin ADC_Pin[1] = {
-    {GPIO_Pin_0,GPIOC}
+    {GPIO_Pin_3,GPIOC}
 };
 
 const static uint8_t ADC_Channel[1] = 
 {
-    ADC_Channel_10
+    ADC_Channel_13
 };
 
 void BSP_ADC_Init(void)
